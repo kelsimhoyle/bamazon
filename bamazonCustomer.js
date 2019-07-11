@@ -26,8 +26,10 @@ function chooseItem() {
                 name: "item",
                 choices: function () {
                     var choice = data.map(function (product) {
-                        var item = `${product.product_name} $${product.price}`;
+                        var item = `${product.product_name} | $${product.price}`;
                         var id = product.item_id;
+                        // the value that is returned is the primary key,
+                        // what the user sees is the name of the product and price
                         return {
                             value: id,
                             name: item
@@ -58,18 +60,20 @@ function chooseItem() {
                 var currentStock = data[0].stock_quantity;
                 var itemPrice = data[0].price;
                 var charged = parseFloat(itemPrice) * parseFloat(answers.quantity);
+                var department = data[0].department_name;
 
                 if (currentStock >= answers.quantity) {
                     var stockUpdate = currentStock - answers.quantity;
                     connection.query("UPDATE products SET ? WHERE ?", [{
-                        stock_quantity: parseInt(stockUpdate)
+                        stock_quantity: parseInt(stockUpdate),
+                        product_sales: charged
                     }, {
                         item_id: itemId
                     }], function (err) {
                         if (err) throw err;
 
-                        console.log(`You have been charged $${charged}. Thank you for your purchase!`);
-                        connection.end();
+                        console.log(`You have been charged $${charged}. Thank you for your purchase!`)
+                        chooseItem();
                     })
                 } else {
                     console.log("Not enough items in stock. Please make another selection. \n");

@@ -11,3 +11,13 @@ VALUES ("Sunglasses", "Fashion", 19.99, 50),
 ("Tylenol", "Health", 4.99, 200);
 
 SELECT * FROM products;
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Fashion", 5000),
+("Electronics", 10000),
+("Pets", 5000),
+("Beauty", 5000),
+("Toys", 5000),
+("Health", 7000);
+
+SELECT * FROM departments;

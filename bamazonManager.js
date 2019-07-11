@@ -109,7 +109,6 @@ function addInventory() {
                     doNext();
                 })
             })
-
         })
     })
 
@@ -130,7 +129,7 @@ function addProduct() {
         {
             message: "What is the price of this product?",
             name: "price",
-            validate: function(input) {
+            validate: function (input) {
                 if (isNaN(input)) {
                     return "Price must be a number.";
                 }
@@ -141,7 +140,7 @@ function addProduct() {
         {
             message: "How many items are you adding to the stock?",
             name: "stock",
-            validate: function(input) {
+            validate: function (input) {
                 if (isNaN(input)) {
                     return "Stock must be a number.";
                 }
@@ -150,20 +149,19 @@ function addProduct() {
             }
         }
 
-    ]).then(function(answers) {
+    ]).then(function (answers) {
         connection.query("INSERT INTO products SET ?", {
             product_name: answers.name,
             department_name: answers.department,
             price: parseFloat(answers.price),
             stock_quantity: parseInt(answers.stock)
-        }, function(err) {
+        }, function (err) {
             if (err) throw err;
 
             console.log(`Added product: ${answers.name}.\n`);
             doNext();
         })
     });
-
 }
 
 function doNext() {
