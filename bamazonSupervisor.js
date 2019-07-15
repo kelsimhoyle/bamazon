@@ -43,7 +43,7 @@ function viewDepartment() {
                 choices: function () {
                     var choice = data.map(function (department) {
                         var departmentName = department.department_name;
-                        
+
                         return departmentName;
                     });
 
@@ -54,17 +54,20 @@ function viewDepartment() {
         ).then(function (answer) {
             var departmentName = answer.department
 
-            var query = "SELECT products.product_sales, products.department_name, departments.over_head_costs, ";
-            query += "(products.product_sales - departments.over_head_costs) AS total_profit ";
-            query += "FROM products JOIN departments ON departments.department_name = products.department_name ";
-            query += "WHERE products.department_name = ";
-            query += `"${departmentName}"`;
+            var query = "SELECT p.department_name, d.`over_head_costs`, SUM(p.product_sales) AS product_sales, ";
+            query += "(SUM(p.product_sales) - d.over_head_costs) as total_profits ";
+            query += "FROM products AS p JOIN departments d ON d.department_name = p.department_name ";
+            query += `WHERE p.department_name = "${departmentName}"`;
+            query += "GROUP BY p.department_name, d.over_head_costs; "
 
-            
-            connection.query(query, function(err, data) {
+            connection.query(query, function (err, data) {
                 if (err) throw err;
 
-                console.table(data);
+                if (data.length === 0) {
+                    console.log("\nNo products to display, yet!\n Add products in the manager application.\n")
+                } else {
+                    console.table(data);
+                }
                 menu();
             })
         })

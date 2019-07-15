@@ -42,7 +42,7 @@ function viewProducts() {
         if (err) throw err;
 
         console.table(data);
-        doNext()
+        menu()
     });
 }
 
@@ -51,7 +51,7 @@ function viewLow() {
         if (err) throw err;
         console.log("Low Inventory:")
         console.table(data);
-        doNext();
+        menu();
     })
 }
 
@@ -66,7 +66,7 @@ function addInventory() {
                 name: "item",
                 choices: function () {
                     var choice = data.map(function (product) {
-                        var item = `${product.product_name} $${product.stock_quantity}`;
+                        var item = `${product.product_name} -- ${product.stock_quantity} items in stock`;
                         var id = product.item_id;
                         return {
                             value: id,
@@ -104,9 +104,9 @@ function addInventory() {
                 }], function (err) {
                     if (err) throw err;
 
-                    console.log(`Added ${answers.quantity} items to ${data[0].product_name}. There are now ${updatedStock} items in stock.\n`);
+                    console.log(`\nAdded ${answers.quantity} items to ${data[0].product_name}. There are now ${updatedStock} items in stock.\n`);
 
-                    doNext();
+                    menu();
                 })
             })
         })
@@ -159,28 +159,11 @@ function addProduct() {
             if (err) throw err;
 
             console.log(`Added product: ${answers.name}.\n`);
-            doNext();
+            menu();
         })
     });
 }
 
-function doNext() {
-    inquirer.prompt({
-        message: "What would you like to next?",
-        type: "list",
-        name: "action",
-        choices: [
-            "Go Back to Main Menu",
-            "Exit"
-        ]
-    }).then(function (answer) {
-        if (answer.action === "Go Back to Main Menu") {
-            menu();
-        } else {
-            connection.end();
-        }
-    })
-}
 
 connection.connect(function (err) {
     if (err) throw err;

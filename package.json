@@ -1,7 +1,7 @@
 {
   "name": "mysqlhw",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bamazon is a command line app where the user interacts with items in the Bamazon database.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/kelsimhoyle/mysqlhw#readme",
   "dependencies": {
-    "inquirer": "^6.4.1",
+    "inquirer": "^6.5.0",
     "mysql": "^2.17.1"
-  }
+  },
+  "devDependencies": {}
 }
